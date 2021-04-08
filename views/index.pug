@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to Ramu Vallapurapu's #{title} Assignment
+  br
+  button(type="button",class="btn btn-success") Press Me
+  br
+  div(id="target") Display
+  br
+  br
+  script. 
+    var client_count = 0;
+    function update(){
+     document.getElementById("target").innerHTML="Value now "+client_count ;
+    }
+  a(href="sauces") link to sauces page
