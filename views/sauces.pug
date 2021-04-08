@@ -1,17 +1,16 @@
 extends layout
- 
+
 block content
   h1= title
-  - var result=[{company:"Ranch",package:"smallpackets",prize:2},{company:"Ketchup",package:"mediumpackets",prize:20},{company:"honeyranch",package:"largepackets",prize:200}] 
-  div(class="container-fluid")
-   div(class="row")
-    - var i=0
-    each form in result
+    - let sauces  = results
+  div(class="container-fluid mt-3")
+  div(class="row")
+    each i ,index in sauces  
+      div(class="col-sm-4")  #{i.company} - #{i.package} -#{i.prize}
      
-     div(class="col-sm-2",,onclick=`buy(${i})`) company: #{form.company} - model: #{form.package} - prize: #{form.prize}
-     -i=i+1
-  script.                
-        function buy(intemNo)
-        {
-              alert(`you purchased Item ${intemNo+1}`)
-        }
+  script.
+     
+      function buy(itemNo)
+      {
+        alert(`You purchased Item ${itemNo+1}`)
+      }
