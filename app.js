@@ -15,27 +15,7 @@ var starsRouter = require('./routes/stars')
 var sauces = require("./models/sauces");
 var resourceRouter=require('./routes/resource')
 // We can seed the collection if needed on server start
-async function recreateDB(){
-  // Delete everything
-  await sauces.deleteMany();
-  let instance1 = new sauces({company:"Ranch",package:"smallpackets",prize:2});
-  instance1.save( function(err,doc) {
-  if(err) return console.error(err);
-  console.log("First object saved")
-  });
-  let instance2 = new sauces({company:"Ketchup",package:"mediumpackets",prize:20});
-  instance2.save( function(err,doc) {
-  if(err) return console.error(err);
-  console.log("Second object saved")
-  });
-  let instance3 = new sauces({company:"honeyranch",package:"largepackets",prize:200});
-  instance3.save( function(err,doc) {
-  if(err) return console.error(err);
-  console.log("Third object saved")
-  });
-  }
-  let reseed = true;
-  if (reseed) { recreateDB();}
+
 
 var app = express();
 
@@ -77,4 +57,25 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connectionerror:'));
 db.once("open", function(){
 console.log("Connection to DB succeeded")});
+async function recreateDB(){
+  // Delete everything
+  await sauces.deleteMany();
+  let instance1 = new sauces({company:"Ranch",package:"smallpackets",prize:2});
+  instance1.save( function(err,doc) {
+  if(err) return console.error(err);
+  console.log("First object saved")
+  });
+  let instance2 = new sauces({company:"Ketchup",package:"mediumpackets",prize:20});
+  instance2.save( function(err,doc) {
+  if(err) return console.error(err);
+  console.log("Second object saved")
+  });
+  let instance3 = new sauces({company:"honeyranch",package:"largepackets",prize:200});
+  instance3.save( function(err,doc) {
+  if(err) return console.error(err);
+  console.log("Third object saved")
+  });
+  }
+  let reseed = true;
+  if (reseed) { recreateDB();}
 module.exports = app;
