@@ -1,6 +1,14 @@
 var express = require('express');
-const sauces_controlers= require('../controllers/sauces');
+const sauces_controllers = require('../controllers/sauces');
 var router = express.Router();
 /* GET saucess */
-router.get('/', sauces_controlers.sauces_view_all_Page );
+router.get('/', sauces_controllers.sauces_view_all_Page);
+/* GET detail Sauce page */
+router.get('/detail', sauces_controllers.sauce_view_one_Page);
+
+router.get('/create', sauces_controllers.sauce_create_Page);
+router.get('/update', sauces_controllers.sauce_update_Page);
+
+
+
 module.exports = router;

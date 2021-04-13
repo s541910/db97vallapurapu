@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  h1= title
+
+  form(id='SauceForm', action="/resource/sauces", method="POST")
+    div.form-group
+        label.sauceAttr(for='company') Sauce Company
+        input#saucetype(type='text', name='saucetype')
+    div.form-group
+        label.sauceAttr(for='package') Sauce package
+        input#saucepackage(type='text', name='saucepackage')
+    div.form-group
+        label.sauceAttr(for='prize') Sauce Prize
+        input#sauceprize(type='number', name='sauceprize')
+    input(type="submit")
+
+  script.
+    document.forms['SauceForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Save succeded")
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Save failed " + error )
+      });
+    });

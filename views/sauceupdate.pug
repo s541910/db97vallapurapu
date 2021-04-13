@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  h1= title
+
+  - let sauceid = toShow._id
+  - let saucecompany = toShow.company
+  - let saucepackage = toShow.package
+  - let sauceprize = toShow.prize
+  
+  div.row(class='mb-2')
+    div.mr-1 ID is
+    div #{sauceid}
+  - let actionid = "/resource/sauces/" + sauceid
+  form(id='SauceForm', action= actionid, method="PUT")
+    div.form-group
+        label.sauceAttr(for='saucecompany') Sauce company
+        input#saucecompany(type='text', name='saucecompany', value= saucecompany )
+    div.form-group
+        label.sauceAttr(for='package') Sauce Package
+        input#saucepackage(type='text', name='saucepackage', value= saucepackage )
+    div.form-group
+        label.sauceAttr(for='prize') Sauce Prize
+        input#sauceprize(type='number', name='sauceprize', value= sauceprize )
+    input(type="submit")
+
+  script.
+    document.forms['SauceForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'PUT',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Update succeded")
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Update failed " + error )
+      });
+    });
