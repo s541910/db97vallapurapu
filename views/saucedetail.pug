@@ -2,21 +2,23 @@ extends layout
 
 block content
   h1= title
-
-  - let sauceid = toShow._id
-  - let saucecompany = toShow.company
-  - let saucepackage = toShow.package
-  - let sauceprize = toShow.prize
-  div
-    div.row
-      div(class='sauceAttr mr-3') Sauce ID is:
-      div #{sauceid}
-    div.row
-      div(class='sauceAttr mr-3') Sauce Company is:
-      div #{saucecompany}
-    div.row
-      div(class='sauceAttr mr-3') Sauce package is:
-      div #{saucepackage}
-    div.row
-      div(class='sauceAttr mr-3') Sauce prize is:
-      div #{sauceprize}
+  if (toShow == null)
+    h2 No instance to detail
+  else
+    - let sauceid = toShow._id
+    - let saucecompany = toShow.company
+    - let saucepackage = toShow.package
+    - let sauceprize = toShow.prize
+    div
+      div.row
+        div(class='sauceAttr mr-3') Sauce ID is:
+        div #{sauceid}
+      div.row
+        div(class='sauceAttr mr-3') Sauce Company is:
+        div #{saucecompany}
+      div.row
+        div(class='sauceAttr mr-3') Sauce package is:
+        div #{saucepackage}
+      div.row
+        div(class='sauceAttr mr-3') Sauce prize is:
+        div #{sauceprize}
