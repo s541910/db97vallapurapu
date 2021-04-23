@@ -23,7 +23,7 @@
           div(class='sauceAttr mr-3') Sauce Package is:
           div #{saucepackage}
         div.row
-          div(class='costumeAttr mr-3') Sauce Prize is:
+          div(class='sauceAttr mr-3') Sauce Prize is:
           div #{sauceprize}
 
       button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
@@ -31,8 +31,8 @@
 
     script.
       function cancel() {
-        // Go back to the home page for the costume collection
-        window.location.href='/costumes'
+        // Go back to the home page for the sauce collection
+        window.location.href='/sauces'
       }
     script.
       function deleteOnid() {

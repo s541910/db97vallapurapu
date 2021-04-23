@@ -2,20 +2,6 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-;
-const connectionString = process.env.MONGO_CON
-mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://ramu:ramu1234@cluster0.red75.mongodb.net/sauces?retryWrites=true&w=majority',
-{useNewUrlParser: true, useUnifiedTopology: true});
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var saucesRouter = require('./routes/sauces');
-var slotRouter = require('./routes/slot')
-var starsRouter = require('./routes/stars')
-var sauces = require("./models/sauces");
-var resourceRouter=require('./routes/resource')
-var app = express();
-// We can seed the collection if needed on server start
 var logger = require('morgan');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy
@@ -32,7 +18,39 @@ passport.use(new LocalStrategy(
   return done(null, user);
   });
   }))
-
+  const connectionString = process.env.MONGO_CON
+  mongoose = require('mongoose');
+  mongoose.connect('mongodb+srv://ramu:ramu1234@cluster0.red75.mongodb.net/sauces?retryWrites=true&w=majority',
+  {useNewUrlParser: true, useUnifiedTopology: true});
+  var indexRouter = require('./routes/index');
+  var usersRouter = require('./routes/users');
+  var saucesRouter = require('./routes/sauces');
+  var slotRouter = require('./routes/slot')
+  var starsRouter = require('./routes/stars')
+  var sauces = require("./models/sauces");
+  var resourceRouter=require('./routes/resource')
+  async function recreateDB(){
+    // Delete everything
+    await sauces.deleteMany();
+    let instance1 = new sauces({company:"Ranch",package:"smallpackets",prize:2});
+    instance1.save( function(err,doc) {
+    if(err) return console.error(err);
+    console.log("First object saved")
+    });
+    let instance2 = new sauces({company:"Ketchup",package:"mediumpackets",prize:20});
+    instance2.save( function(err,doc) {
+    if(err) return console.error(err);
+    console.log("Second object saved")
+    });
+    let instance3 = new sauces({company:"honeyranch",package:"largepackets",prize:200});
+    instance3.save( function(err,doc) {
+    if(err) return console.error(err);
+    console.log("Third object saved")
+    });
+    }
+    let reseed = true;
+    if (reseed) { recreateDB();}
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -49,11 +67,8 @@ app.use(require('express-session')({
   }));
   app.use(passport.initialize());
   app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
-var Account =require('./models/account'));
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
+  app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -61,10 +76,17 @@ app.use('/sauces', saucesRouter);
 app.use('/slot', slotRouter);
 app.use('/stars',starsRouter);
 app.use('/resource',resourceRouter)
+var Account =require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+// We can seed the collection if needed on server start
+
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -83,25 +105,5 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connectionerror:'));
 db.once("open", function(){
 console.log("Connection to DB succeeded")});
-async function recreateDB(){
-  // Delete everything
-  await sauces.deleteMany();
-  let instance1 = new sauces({company:"Ranch",package:"smallpackets",prize:2});
-  instance1.save( function(err,doc) {
-  if(err) return console.error(err);
-  console.log("First object saved")
-  });
-  let instance2 = new sauces({company:"Ketchup",package:"mediumpackets",prize:20});
-  instance2.save( function(err,doc) {
-  if(err) return console.error(err);
-  console.log("Second object saved")
-  });
-  let instance3 = new sauces({company:"honeyranch",package:"largepackets",prize:200});
-  instance3.save( function(err,doc) {
-  if(err) return console.error(err);
-  console.log("Third object saved")
-  });
-  }
-  let reseed = true;
-  if (reseed) { recreateDB();}
+
 module.exports = app;

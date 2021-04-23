@@ -1,17 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to Ramu Vallapurapu's #{title} Assignment
+ if (!user)
+  a(href="/login") Login
   br
-  button(type="button",class="btn btn-success") Press Me
+  a(href="/register") Register
+ if (user)
+  p You are currently logged in as #{user.username}
+  a(href="/sauces") Go to the sauces Page
   br
-  div(id="target") Display
-  br
-  br
-  script. 
-    var client_count = 0;
-    function update(){
-     document.getElementById("target").innerHTML="Value now "+client_count ;
-    }
-  a(href="sauces") link to sauces page
+  a(href="/logout") Logout
