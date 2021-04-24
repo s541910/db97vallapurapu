@@ -11,6 +11,7 @@ exports.sauces_list = async function(req, res) {
     }
     catch(err){
     res.error(500,`{"error": ${err}}`);
+    res.status(500);
     }
     };
 // for a specific sauces.
@@ -38,7 +39,11 @@ exports.sauces_create_post = async function (req, res) {
         res.send(result);
         }
         catch(err){
-        res.error(500,`{"error": ${err}}`);
+            console.log(err)
+            res.send({"name":err.name,"message":err.message})
+            res.send(err)
+            res.status(500);
+        //res.error(500,`{"error": ${err}}`);
         }
     };
 // Handle sauces delete form on DELETE.
@@ -81,6 +86,7 @@ exports.sauces_view_all_Page = async function(req, res) {
     }
     catch(err){
     res.error(500,`{"error": ${err}}`);
+    res.status(500)
     }
     };
 
@@ -109,11 +115,6 @@ exports.sauce_create_Page =  function(req, res) {
     catch(err){
         res.status(500)
         res.send(`{'error': '${err}'}`);
-    }
-
-    exports.sauce_update_Page = function(req,res)
-    {
-
     }
 
 };

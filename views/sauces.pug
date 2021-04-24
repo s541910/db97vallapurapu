@@ -6,13 +6,26 @@ block content
   div(class="container-fluid mt-3")
   div(class="row m-1")
     each a in items
-      - let destination = `dispatch(\"/sauces/update?id=${a._id}\")`
-      div(class="row-sm-2", class="m-1") Company #{a.company}(#{a.package}) is #{a.prize}
-        button.btn( class="btn-primary ml-1", onclick= destination) Update
+      - let destinationupdate = `dispatch(\"/sauces/update?id=${a._id}\")`
+      - let destinationcreate = `dispatchCreate(\"/sauces/create\")`
+      - let destinationdelete = `dispatchDelete(\"/sauces/delete?id=${a._id}\")`
+        div(class="row-sm-2", class="m-1") Company #{a.company}(#{a.package}) is #{a.prize}
+     
+         button.btn( class="btn-primary ml-1", onclick= destinationcreate) Create
+         button.btn( class="btn-info ml-1", onclick= destinationupdate) Update
+         button.btn( class="btn-danger ml-1", onclick= destinationdelete) Delete
 
   script.
-     
-      function dispatch(path)
+      function dispatch(path){
+      window.location.href=path
+      }
+      function buy(itemNo)
       {
+        alert(`You purchased Item ${itemNo+1}`)
+      }
+      function dispatchCreate(path){
+        window.location.href=path
+      }
+      function dispatchDelete(path){
         window.location.href=path
       }
